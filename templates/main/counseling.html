@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SafeCampus | Counseling Support</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson: #C8102E;
+      --ink: #0D0D0D;
+      --ash: #F7F5F2;
+      --slate: #8A8A8A;
+      --white: #FFFFFF;
+      --border: rgba(0,0,0,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ash); color: var(--ink); }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 6%; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-mark { width: 34px; height: 34px; background: var(--crimson); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; color: white; font-size: 17px; }
+    .nav-logo-text { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--ink); }
+    .nav-logo-text span { color: var(--crimson); }
+    .nav-back {
+      text-decoration: none; color: var(--slate); font-size: 0.82rem;
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 6px; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--crimson); }
+
+    /* ── PAGE ── */
+    .page { max-width: 900px; margin: 0 auto; padding: 60px 24px 80px; }
+    .page-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--crimson); margin-bottom: 12px; }
+    .page-title { font-family: 'DM Serif Display', serif; font-size: 2.4rem; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .page-subtitle { color: var(--slate); font-size: 0.92rem; margin-bottom: 48px; }
+
+    /* ── INFO CARDS ── */
+    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+    .info-card { background: var(--white); padding: 24px; border: 1px solid var(--border); }
+    .info-card .icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .info-card h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+    .info-card p { font-size: 0.78rem; color: var(--slate); line-height: 1.6; }
+
+    /* ── SESSIONS ── */
+    .section-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); margin-bottom: 16px; }
+    .sessions-card { background: var(--white); border: 1px solid var(--border); }
+    .session-item {
+      padding: 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 20px;
+    }
+    .session-item:last-child { border-bottom: none; }
+    .counselor-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--ash); display: flex; align-items: center;
+      justify-content: center; font-weight: 700; font-size: 14px;
+      color: var(--slate); flex-shrink: 0;
+    }
+    .session-info { flex: 1; }
+    .session-names {
+      font-size: 0.9rem; font-weight: 600; margin-bottom: 4px;
+    }
+    .session-names .arrow { color: var(--crimson); font-weight: 400; margin: 0 8px; }
+    .session-names .counselor { color: var(--crimson); }
+    .session-note { font-size: 0.82rem; color: var(--slate); line-height: 1.6; margin-top: 6px; }
+    .session-badge {
+      padding: 4px 12px; font-size: 0.67rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0;
+    }
+    .badge-ongoing { background: rgba(245,158,11,0.1); color: #b45309; }
+    .badge-urgent  { background: rgba(200,16,46,0.1); color: var(--crimson); }
+    .badge-closed  { background: rgba(16,185,129,0.1); color: #065f46; }
+
+    /* ── BOOK SESSION ── */
+    .book-card {
+      background: var(--ink); padding: 48px;
+      margin-top: 32px; display: flex;
+      align-items: center; justify-content: space-between;
+      gap: 32px; flex-wrap: wrap;
+    }
+    .book-text h2 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--white); margin-bottom: 8px; }
+    .book-text p { color: rgba(255,255,255,0.45); font-size: 0.85rem; line-height: 1.6; max-width: 380px; }
+    .btn-book {
+      background: var(--crimson); color: white;
+      padding: 14px 32px; text-decoration: none;
+      font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-book:hover { background: #9B0B22; }
+
+    @media (max-width: 700px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .book-card { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="{{ url_for('main.index') }}" class="nav-logo">
+    <div class="nav-logo-mark">S</div>
+    <div class="nav-logo-text">Safe<span>Campus</span></div>
+  </a>
+  <a href="{{ url_for('main.index') }}" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="page">
+  <div class="page-eyebrow">Student Wellness</div>
+  <h1 class="page-title">Counseling Support</h1>
+  <p class="page-subtitle">Confidential welfare management and professional counseling for the Sushant University community.</p>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="icon">🔒</div>
+      <h3>100% Confidential</h3>
+      <p>All counseling sessions are strictly private. Records are protected by institutional policy.</p>
+    </div>
+    <div class="info-card">
+      <div class="icon">🧠</div>
+      <h3>Certified Professionals</h3>
+      <p>Our counselors are certified mental health practitioners with experience in student welfare.</p>
+    </div>
+    <div class="info-card">
+      <div class="icon">⚡</div>
+      <h3>Priority Escalation</h3>
+      <p>Urgent cases are escalated immediately to senior counselors and campus safety team.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Active Sessions</div>
+  <div class="sessions-card">
+    {% for session in sessions %}
+    <div class="session-item">
+      <div class="counselor-avatar">{{ session.victim.full_name[0] if session.victim else '?' }}</div>
+      <div class="session-info">
+        <div class="session-names">
+          {{ session.victim.full_name if session.victim else 'Student' }}
+          <span class="arrow">→</span>
+          <span class="counselor">Assigned Counselor</span>
+        </div>
+        <div class="session-note">Active case — incident #{{ session.id }}</div>
+      </div>
+      <span class="session-badge badge-ongoing">Ongoing</span>
+    </div>
+    {% else %}
+    <!-- Demo data -->
+    <div class="session-item">
+      <div class="counselor-avatar">PM</div>
+      <div class="session-info">
+        <div class="session-names">
+          Priya Mehta
+          <span class="arrow">→</span>
+          <span class="counselor">Dr. Kavita Sharma</span>
+        </div>
+        <div class="session-note">CBT session in progress — Recommended continued therapy for anxiety management.</div>
+      </div>
+      <span class="session-badge badge-ongoing">Ongoing</span>
+    </div>
+    <div class="session-item">
+      <div class="counselor-avatar">AS</div>
+      <div class="session-info">
+        <div class="session-names">
+          Ananya Singh
+          <span class="arrow">→</span>
+          <span class="counselor">Ms. Preethi Nair</span>
+        </div>
+        <div class="session-note">Severe distress reported. Safety plan created and reviewed. Daily check-in scheduled.</div>
+      </div>
+      <span class="session-badge badge-urgent">Urgent</span>
+    </div>
+    <div class="session-item">
+      <div class="counselor-avatar">RK</div>
+      <div class="session-info">
+        <div class="session-names">
+          Rohan Kapoor
+          <span class="arrow">→</span>
+          <span class="counselor">Dr. Kavita Sharma</span>
+        </div>
+        <div class="session-note">Follow-up session after harassment incident. Recovery progressing well.</div>
+      </div>
+      <span class="session-badge badge-closed">Resolved</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="book-card">
+    <div class="book-text">
+      <h2>Need someone to talk to?</h2>
+      <p>You don't have to face it alone. Our campus counselors provide free, confidential support for all students.</p>
+    </div>
+    <a href="mailto:counseling@sushantuniversity.edu.in" class="btn-book">Book a Session →</a>
+  </div>
+</div>
+
+</body>
+</html>

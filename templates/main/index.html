@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafeCampus | Sushant University</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson: #C8102E;
+  --crimson-dark: #9B0B22;
+  --crimson-glow: rgba(200,16,46,0.15);
+  --ink: #0D0D0D;
+  --ash: #F7F5F2;
+  --slate: #8A8A8A;
+  --white: #FFFFFF;
+  --border: rgba(0,0,0,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ash);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 6%; height: 72px;
+  background: rgba(247,245,242,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px; background: var(--crimson);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  color: white; font-size: 18px; font-weight: normal;
+}
+.nav-logo-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem; color: var(--ink); letter-spacing: -0.02em;
+}
+.nav-logo-text span { color: var(--crimson); }
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+}
+.nav-links a {
+  text-decoration: none; color: var(--slate);
+  font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+  text-transform: uppercase; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink) !important;
+  color: var(--white) !important;
+  padding: 9px 22px !important;
+  letter-spacing: 0.05em !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--crimson) !important; color: var(--white) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: 0.3s; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 6% 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -50%; right: -20%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(200,16,46,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--white); border: 1px solid var(--border);
+  padding: 6px 14px; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--crimson);
+  margin-bottom: 32px; width: fit-content;
+}
+.hero-eyebrow::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--crimson); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 1.0; letter-spacing: -0.03em;
+  color: var(--ink); max-width: 900px;
+  margin-bottom: 28px;
+}
+.hero h1 em { color: var(--crimson); font-style: italic; }
+.hero-sub {
+  font-size: 1.1rem; color: var(--slate); max-width: 520px;
+  line-height: 1.7; margin-bottom: 48px; font-weight: 400;
+}
+.hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--crimson); color: white;
+  padding: 16px 36px; text-decoration: none;
+  font-weight: 600; font-size: 0.9rem;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  transition: all 0.25s; display: inline-block;
+  border: 2px solid var(--crimson);
+}
+.btn-primary:hover { background: var(--crimson-dark); border-color: var(--crimson-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(200,16,46,0.3); }
+.btn-ghost {
+  color: var(--ink); text-decoration: none;
+  font-weight: 600; font-size: 0.9rem;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+  transition: gap 0.2s;
+}
+.btn-ghost:hover { gap: 12px; }
+.hero-stats {
+  display: flex; gap: 48px; margin-top: 80px;
+  padding-top: 40px; border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.stat-item {}
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.4rem; color: var(--ink); line-height: 1;
+}
+.stat-label { font-size: 0.78rem; color: var(--slate); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+
+/* ── MARQUEE ── */
+.marquee-strip {
+  background: var(--crimson); color: white;
+  padding: 14px 0; overflow: hidden; white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+}
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.marquee-inner span { margin: 0 40px; opacity: 0.7; }
+.marquee-inner strong { margin: 0 40px; }
+
+/* ── FEATURES ── */
+.section { padding: 100px 6%; }
+.section-label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--crimson);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 60px;
+  max-width: 600px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+}
+.feature-card {
+  background: var(--white);
+  padding: 48px 40px;
+  transition: background 0.25s;
+  position: relative; overflow: hidden;
+}
+.feature-card:hover { background: var(--ink); }
+.feature-card:hover .feature-icon { background: var(--crimson); }
+.feature-card:hover .feature-title { color: var(--white); }
+.feature-card:hover .feature-desc { color: rgba(255,255,255,0.6); }
+.feature-card:hover .feature-num { color: rgba(255,255,255,0.15); }
+.feature-icon {
+  width: 48px; height: 48px; background: var(--ash);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 32px; font-size: 1.3rem;
+  transition: background 0.25s;
+}
+.feature-num {
+  position: absolute; top: 24px; right: 32px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 4rem; color: rgba(0,0,0,0.05); line-height: 1;
+  transition: color 0.25s;
+}
+.feature-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem; margin-bottom: 12px; color: var(--ink);
+  transition: color 0.25s;
+}
+.feature-desc {
+  font-size: 0.88rem; color: var(--slate);
+  line-height: 1.7; transition: color 0.25s;
+}
+
+/* ── HOW IT WORKS ── */
+.how-section { background: var(--ink); padding: 100px 6%; }
+.how-section .section-label { color: var(--crimson); }
+.how-section .section-title { color: var(--white); }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+}
+.step { position: relative; }
+.step::after {
+  content: '→';
+  position: absolute; right: -20px; top: 12px;
+  color: var(--crimson); font-size: 1.2rem;
+}
+.step:last-child::after { display: none; }
+.step-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3.5rem; color: var(--crimson);
+  line-height: 1; margin-bottom: 16px; opacity: 0.8;
+}
+.step-title {
+  font-weight: 600; color: var(--white);
+  font-size: 1rem; margin-bottom: 10px;
+}
+.step-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ── CTA BANNER ── */
+.cta-section {
+  padding: 80px 6%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 40px; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.cta-text h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em; margin-bottom: 10px;
+}
+.cta-text p { color: var(--slate); font-size: 0.95rem; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--ink); color: rgba(255,255,255,0.4);
+  padding: 40px 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+  font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase;
+}
+.footer-brand {
+  font-family: 'DM Serif Display', serif;
+  color: var(--white); font-size: 1.1rem;
+  letter-spacing: -0.02em; text-transform: none;
+}
+
+/* ── ANIMATIONS ── */
+.fade-up {
+  opacity: 0; transform: translateY(30px);
+  animation: fadeUp 0.7s ease forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-up:nth-child(4) { animation-delay: 0.4s; }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .step::after { display: none; }
+}
+@media (max-width: 640px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; flex-direction: column;
+    position: fixed; top: 72px; left: 0; right: 0;
+    background: var(--ash); padding: 24px 6%; gap: 20px;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: 1rem; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; }
+  .cta-section { text-align: center; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="{{ url_for('main.index') }}" class="nav-logo">
+    <div class="nav-logo-mark">S</div>
+    <div class="nav-logo-text">Safe<span>Campus</span></div>
+  </a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="nav-links" id="nav-links">
+    <a href="{{ url_for('main.index') }}">Home</a>
+    <a href="{{ url_for('main.report') }}">Report</a>
+    <a href="{{ url_for('main.counseling') }}">Support</a>
+    <a href="{{ url_for('auth.login') }}" class="nav-cta">Portal Login</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Sushant University · Campus Safety Division</div>
+  <h1 class="fade-up">Protecting Every<br><em>Student.</em> Always.</h1>
+  <p class="hero-sub fade-up">A secure, confidential platform for reporting cyber incidents, harassment, and campus safety concerns. Your voice matters.</p>
+  <div class="hero-actions fade-up">
+    <a href="{{ url_for('main.report') }}" class="btn-primary">Lodge Formal Report →</a>
+    <a href="{{ url_for('auth.login') }}" class="btn-ghost">Student Login <span>↗</span></a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Support Available</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Confidential</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">48h</div>
+      <div class="stat-label">Response Time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">256-bit</div>
+      <div class="stat-label">Encryption</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <strong>CYBERBULLYING PROTECTION</strong><span>·</span>
+    <strong>INCIDENT REPORTING</strong><span>·</span>
+    <strong>STUDENT COUNSELING</strong><span>·</span>
+    <strong>DIGITAL SAFETY</strong><span>·</span>
+    <strong>ANONYMOUS REPORTING</strong><span>·</span>
+    <strong>RAGGING PREVENTION</strong><span>·</span>
+    <strong>CYBERBULLYING PROTECTION</strong><span>·</span>
+    <strong>INCIDENT REPORTING</strong><span>·</span>
+    <strong>STUDENT COUNSELING</strong><span>·</span>
+    <strong>DIGITAL SAFETY</strong><span>·</span>
+    <strong>ANONYMOUS REPORTING</strong><span>·</span>
+    <strong>RAGGING PREVENTION</strong><span>·</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-label">Why SafeCampus</div>
+  <div class="section-title">Built for safety.<br>Designed for trust.</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">End-to-End Privacy</div>
+      <p class="feature-desc">All reports are encrypted and stored securely. Victims can request full identity masking throughout the institutional process.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Rapid Response</div>
+      <p class="feature-desc">Critical incidents are escalated immediately to the campus safety team. Guaranteed acknowledgement within 48 hours.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03</div>
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">Counseling Support</div>
+      <p class="feature-desc">Connect with certified mental health professionals on campus. Scheduled and emergency sessions available.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">04</div>
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Institutional Oversight</div>
+      <p class="feature-desc">Every report follows the University's official disciplinary workflow with full transparency at each stage.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">05</div>
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">Multi-Platform Coverage</div>
+      <p class="feature-desc">Report incidents across Instagram, WhatsApp, college forums, in-person or any other channel.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">06</div>
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Real-Time Tracking</div>
+      <p class="feature-desc">Monitor the live status of your report through your secure student portal dashboard.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div class="section-label">How It Works</div>
+  <div class="section-title">From report to resolution<br>— transparently.</div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Submit Report</div>
+      <p class="step-desc">File an incident through the secure intake form. Anonymity available.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Initial Review</div>
+      <p class="step-desc">Campus safety team reviews within 48 hours and assigns priority level.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Investigation</div>
+      <p class="step-desc">Dedicated staff investigates the incident with full confidentiality.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Resolution</div>
+      <p class="step-desc">Action taken and closure communicated to you via institutional email.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-text">
+    <h2>Something happened?<br>We're here.</h2>
+    <p>File a confidential report in under 3 minutes.</p>
+  </div>
+  <a href="{{ url_for('main.report') }}" class="btn-primary">Lodge Report Now →</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand">SafeCampus — Sushant University</div>
+  <div>© 2026 · Campus Safety Division · All rights reserved</div>
+  <div>Confidential &amp; Secure Portal</div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

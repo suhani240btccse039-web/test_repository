@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Portal | SafeCampus</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson: #C8102E;
+      --ink: #0D0D0D;
+      --ash: #F7F5F2;
+      --slate: #8A8A8A;
+      --white: #FFFFFF;
+      --border: rgba(0,0,0,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ash); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 6%; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-mark { width: 34px; height: 34px; background: var(--crimson); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; color: white; font-size: 17px; }
+    .nav-logo-text { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--ink); }
+    .nav-logo-text span { color: var(--crimson); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-user { display: flex; align-items: center; gap: 10px; }
+    .nav-avatar { width: 32px; height: 32px; background: var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 13px; }
+    .nav-name { font-size: 0.85rem; font-weight: 600; }
+    .nav-logout {
+      text-decoration: none; color: var(--slate); font-size: 0.78rem;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 7px 16px; border: 1px solid var(--border); transition: all 0.2s;
+    }
+    .nav-logout:hover { color: var(--crimson); border-color: var(--crimson); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 1140px; margin: 40px auto; padding: 0 24px; }
+
+    /* ── WELCOME BAR ── */
+    .welcome-bar {
+      background: var(--ink); padding: 28px 36px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
+    }
+    .welcome-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .welcome-text h1 em { color: var(--crimson); font-style: italic; }
+    .welcome-text p { color: rgba(255,255,255,0.45); font-size: 0.82rem; margin-top: 4px; }
+    .btn-new-report {
+      background: var(--crimson); color: white;
+      padding: 12px 28px; text-decoration: none;
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-new-report:hover { background: #9B0B22; }
+
+    /* ── GRID ── */
+    .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    @media (max-width: 800px) { .content-grid { grid-template-columns: 1fr; } }
+
+    /* ── CARD ── */
+    .card { background: var(--white); border: 1px solid var(--border); margin-bottom: 20px; }
+    .card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+    }
+    .card-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--slate); }
+    .card-count { font-size: 0.72rem; color: var(--crimson); font-weight: 700; }
+
+    /* ── INCIDENT ITEMS ── */
+    .incident-item {
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    }
+    .incident-item:last-child { border-bottom: none; }
+    .incident-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .incident-info { flex: 1; }
+    .incident-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+    .incident-meta { font-size: 0.75rem; color: var(--slate); }
+    .status-pill {
+      padding: 4px 10px; font-size: 0.67rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; flex-shrink: 0;
+    }
+    .pill-review  { background: rgba(245,158,11,0.1); color: #b45309; }
+    .pill-pending { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+    .pill-resolved{ background: rgba(16,185,129,0.1); color: #065f46; }
+    .pill-open    { background: rgba(200,16,46,0.1); color: var(--crimson); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      padding: 40px; text-align: center; color: var(--slate);
+      font-size: 0.88rem; line-height: 1.7;
+    }
+    .empty-state .empty-icon { font-size: 2rem; margin-bottom: 12px; }
+
+    /* ── SIDEBAR CARDS ── */
+    .resource-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px; border-bottom: 1px solid var(--border);
+      text-decoration: none; font-size: 0.85rem; font-weight: 500;
+      color: var(--ink); transition: background 0.15s;
+    }
+    .resource-link:hover { background: var(--ash); }
+    .resource-link:last-child { border-bottom: none; }
+    .resource-link .arrow { color: var(--slate); font-size: 0.8rem; }
+
+    /* ── SECURITY CARD ── */
+    .security-card {
+      background: var(--ink); padding: 24px;
+      border: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .security-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--crimson); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .security-text { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    /* ── HELP CARD ── */
+    .help-card {
+      background: var(--crimson); padding: 24px; margin-bottom: 20px;
+    }
+    .help-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: white; margin-bottom: 8px; }
+    .help-text { font-size: 0.8rem; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 16px; }
+    .btn-counseling {
+      display: block; background: white; color: var(--crimson);
+      padding: 10px; text-align: center; text-decoration: none;
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; transition: background 0.2s;
+    }
+    .btn-counseling:hover { background: rgba(255,255,255,0.9); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="{{ url_for('main.index') }}" class="nav-logo">
+    <div class="nav-logo-mark">S</div>
+    <div class="nav-logo-text">Safe<span>Campus</span></div>
+  </a>
+  <div class="nav-right">
+    <div class="nav-user">
+      <div class="nav-avatar">{{ current_user.full_name[0] if current_user and current_user.full_name else 'U' }}</div>
+      <span class="nav-name">{{ current_user.full_name if current_user else 'Student' }}</span>
+    </div>
+    <a href="{{ url_for('auth.logout') }}" class="nav-logout">Sign Out</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="welcome-bar">
+    <div class="welcome-text">
+      <h1>Welcome, <em>{{ current_user.full_name.split()[0] if current_user else 'Student' }}.</em></h1>
+      <p>{{ current_user.enrollment_no if current_user else '' }} &nbsp;·&nbsp; {{ current_user.college.name if current_user and current_user.college else 'Sushant University' }}</p>
+    </div>
+    <a href="{{ url_for('main.report') }}" class="btn-new-report">+ New Report</a>
+  </div>
+
+  <div class="content-grid">
+    <main>
+      <!-- MY REPORTS -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">My Filed Reports</div>
+          <div class="card-count">{{ current_user.incidents_reported.count() if current_user else 2 }} total</div>
+        </div>
+        {% if current_user and current_user.incidents_reported.count() > 0 %}
+          {% for inc in current_user.incidents_reported %}
+          <div class="incident-item">
+            <div class="incident-icon">📋</div>
+            <div class="incident-info">
+              <div class="incident-title">Incident #{{ inc.id }} — {{ inc.type.name if inc.type else 'General' }}</div>
+              <div class="incident-meta">Reported via {{ inc.platform.name if inc.platform else 'Portal' }}</div>
+            </div>
+            <span class="status-pill pill-review">Under Review</span>
+          </div>
+          {% endfor %}
+        {% else %}
+        <!-- Demo data -->
+        <div class="incident-item">
+          <div class="incident-icon">📋</div>
+          <div class="incident-info">
+            <div class="incident-title">Incident #10 — Defamation</div>
+            <div class="incident-meta">Filed 15 Mar 2024 · via College Forum</div>
+          </div>
+          <span class="status-pill pill-review">Under Review</span>
+        </div>
+        <div class="incident-item">
+          <div class="incident-icon">📋</div>
+          <div class="incident-info">
+            <div class="incident-title">Incident #04 — Academic Rumors</div>
+            <div class="incident-meta">Filed 10 Feb 2024 · via WhatsApp</div>
+          </div>
+          <span class="status-pill pill-pending">Pending</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- COUNSELING SESSIONS -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Counseling Sessions</div>
+        </div>
+        <div class="empty-state">
+          <div class="empty-icon">🧠</div>
+          No upcoming sessions scheduled.<br>
+          Use the Request Counseling button to book a session with a wellness professional.
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <div class="help-card">
+        <div class="help-title">Need to talk?</div>
+        <p class="help-text">Our certified counselors are available for confidential support sessions, anytime.</p>
+        <a href="{{ url_for('main.counseling') }}" class="btn-counseling">Request Counseling</a>
+      </div>
+
+      <div class="security-card">
+        <div class="security-label">🔒 Privacy Notice</div>
+        <p class="security-text">All your reports are encrypted end-to-end. Only authorised campus safety personnel can view case details. You'll be notified via institutional email of any status changes.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Resources</div>
+        </div>
+        <a href="#" class="resource-link">
+          University Code of Conduct <span class="arrow">↗</span>
+        </a>
+        <a href="#" class="resource-link">
+          Digital Safety Guide <span class="arrow">↗</span>
+        </a>
+        <a href="#" class="resource-link">
+          Emergency Contacts <span class="arrow">↗</span>
+        </a>
+        <a href="#" class="resource-link">
+          Anti-Ragging Policy <span class="arrow">↗</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+</body>
+</html>

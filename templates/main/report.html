@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SafeCampus | Incident Intake</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson: #C8102E;
+      --crimson-dark: #9B0B22;
+      --ink: #0D0D0D;
+      --ash: #F7F5F2;
+      --slate: #8A8A8A;
+      --white: #FFFFFF;
+      --border: rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--ash); color: var(--ink); }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 68px;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-mark { width: 34px; height: 34px; background: var(--crimson); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; color: white; font-size: 17px; }
+    .nav-logo-text { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--ink); }
+    .nav-logo-text span { color: var(--crimson); }
+    .nav-back {
+      text-decoration: none; color: var(--slate); font-size: 0.82rem;
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 6px; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 860px; margin: 0 auto; padding: 60px 24px 80px; }
+
+    /* ── HEADER ── */
+    .page-header { margin-bottom: 48px; }
+    .page-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--crimson); margin-bottom: 16px;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem; letter-spacing: -0.02em; line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .page-subtitle { color: var(--slate); font-size: 0.92rem; line-height: 1.6; }
+
+    /* ── ANON TOGGLE ── */
+    .anon-toggle {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--white); border: 1px solid var(--border);
+      padding: 16px 20px; margin-bottom: 32px; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .anon-toggle:hover { border-color: var(--crimson); }
+    .anon-toggle.active { border-color: var(--crimson); background: rgba(200,16,46,0.03); }
+    .toggle-switch {
+      width: 40px; height: 22px; background: #ddd;
+      border-radius: 11px; position: relative;
+      transition: background 0.2s; flex-shrink: 0;
+    }
+    .toggle-switch::after {
+      content: ''; position: absolute;
+      top: 3px; left: 3px;
+      width: 16px; height: 16px;
+      background: white; border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .anon-toggle.active .toggle-switch { background: var(--crimson); }
+    .anon-toggle.active .toggle-switch::after { transform: translateX(18px); }
+    .anon-label { flex: 1; }
+    .anon-label strong { display: block; font-size: 0.88rem; margin-bottom: 2px; }
+    .anon-label span { font-size: 0.78rem; color: var(--slate); }
+
+    /* ── FORM CARD ── */
+    .form-card { background: var(--white); padding: 48px; border: 1px solid var(--border); }
+    .form-section-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--slate);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+      margin-bottom: 24px; margin-top: 32px;
+    }
+    .form-section-title:first-child { margin-top: 0; }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .field { margin-bottom: 0; }
+    .field label {
+      display: block; font-size: 0.72rem; font-weight: 700;
+      color: var(--slate); text-transform: uppercase;
+      letter-spacing: 0.07em; margin-bottom: 7px;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 12px 14px;
+      border: 1px solid var(--border); background: var(--ash);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      color: var(--ink); transition: border-color 0.2s, background 0.2s;
+      outline: none; appearance: none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--crimson); background: var(--white);
+    }
+    .field input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .field textarea { resize: vertical; min-height: 130px; }
+    .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%238A8A8A'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .full-width { grid-column: 1 / -1; }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 3px; background: var(--border);
+      margin-bottom: 32px;
+    }
+    .progress-fill {
+      height: 100%; background: var(--crimson);
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* Severity indicator */
+    .severity-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .severity-pill {
+      padding: 8px 18px; border: 1px solid var(--border);
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.05em; cursor: pointer;
+      transition: all 0.15s; color: var(--slate); background: var(--ash);
+    }
+    .severity-pill.selected-low    { border-color: #10b981; color: #065f46; background: rgba(16,185,129,0.08); }
+    .severity-pill.selected-medium { border-color: #f59e0b; color: #92400e; background: rgba(245,158,11,0.08); }
+    .severity-pill.selected-high   { border-color: #ef4444; color: #991b1b; background: rgba(239,68,68,0.08); }
+    .severity-pill.selected-critical{ border-color: var(--crimson); color: var(--crimson); background: rgba(200,16,46,0.08); }
+
+    /* Evidence note */
+    .evidence-note {
+      background: rgba(200,16,46,0.04); border-left: 3px solid var(--crimson);
+      padding: 12px 16px; font-size: 0.8rem; color: var(--slate);
+      margin-top: 8px; line-height: 1.6;
+    }
+
+    /* Submit */
+    .submit-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .submit-note { font-size: 0.78rem; color: var(--slate); max-width: 320px; line-height: 1.5; }
+    .btn-submit {
+      background: var(--crimson); color: white;
+      padding: 16px 40px; border: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-submit:hover { background: var(--crimson-dark); }
+    .btn-submit:active { transform: scale(0.99); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Success state */
+    .success-screen {
+      display: none; text-align: center;
+      padding: 80px 40px;
+      background: var(--white); border: 1px solid var(--border);
+    }
+    .success-screen.show { display: block; }
+    .success-icon { font-size: 3rem; margin-bottom: 20px; }
+    .success-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem; margin-bottom: 12px;
+    }
+    .success-ref {
+      display: inline-block; background: var(--ash);
+      padding: 8px 20px; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin: 16px 0; color: var(--crimson);
+    }
+    .success-sub { color: var(--slate); font-size: 0.88rem; line-height: 1.6; margin-bottom: 28px; }
+    .btn-home {
+      display: inline-block; background: var(--ink); color: white;
+      padding: 12px 28px; text-decoration: none;
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      transition: background 0.2s;
+    }
+    .btn-home:hover { background: var(--crimson); }
+
+    @media (max-width: 640px) {
+      .field-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 28px 20px; }
+      .submit-row { flex-direction: column; align-items: stretch; text-align: center; }
+      .btn-submit { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="{{ url_for('main.index') }}" class="nav-logo">
+    <div class="nav-logo-mark">S</div>
+    <div class="nav-logo-text">Safe<span>Campus</span></div>
+  </a>
+  <a href="{{ url_for('main.index') }}" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-eyebrow">🔒 Secure &amp; Confidential</div>
+    <h1 class="page-title">Incident Intake Form</h1>
+    <p class="page-subtitle">Submit a formal record for institutional review. All submissions are encrypted and kept strictly confidential.</p>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- Anonymous toggle -->
+  <div class="anon-toggle" id="anonToggle" onclick="toggleAnon()">
+    <div class="toggle-switch" id="toggleSwitch"></div>
+    <div class="anon-label">
+      <strong>Request Identity Masking</strong>
+      <span>Your name will not appear in any report — fully anonymous submission</span>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card" id="formCard">
+
+    <div class="form-section-title">Victim Information</div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Victim Full Name</label>
+        <input type="text" id="victim-name" placeholder="Full legal name">
+      </div>
+      <div class="field">
+        <label>University Roll No.</label>
+        <input type="text" id="roll-no" placeholder="e.g. 2024BTCSE001">
+      </div>
+    </div>
+
+    <div class="form-section-title" style="margin-top:28px;">Incident Details</div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Incident Type</label>
+        <select id="inc-type">
+          <option value="">— Select type —</option>
+          <option value="harassment">Harassment</option>
+          <option value="cyberbullying">Cyberbullying</option>
+          <option value="ragging">Ragging</option>
+          <option value="impersonation">Impersonation</option>
+          <option value="discrimination">Discrimination</option>
+          <option value="assault">Assault</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Platform / Channel</label>
+        <select id="platform">
+          <option value="">— Select platform —</option>
+          <option value="instagram">Instagram</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="twitter">Twitter / X</option>
+          <option value="email">Email</option>
+          <option value="college-portal">College Portal</option>
+          <option value="in-person">In Person</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-grid" style="margin-top:20px;">
+      <div class="field">
+        <label>Perpetrator (if known)</label>
+        <input type="text" id="perpetrator" placeholder="Name or description">
+      </div>
+      <div class="field">
+        <label>Date of Incident</label>
+        <input type="date" id="inc-date">
+      </div>
+    </div>
+
+    <div class="field-grid" style="margin-top:20px;">
+      <div class="field full-width">
+        <label>Severity Level</label>
+        <div class="severity-pills">
+          <div class="severity-pill" onclick="setSeverity(this,'low')">🟢 Low</div>
+          <div class="severity-pill" onclick="setSeverity(this,'medium')">🟡 Medium</div>
+          <div class="severity-pill" onclick="setSeverity(this,'high')">🔴 High</div>
+          <div class="severity-pill" onclick="setSeverity(this,'critical')">⚠️ Critical</div>
+        </div>
+        <input type="hidden" id="severity-val">
+      </div>
+    </div>
+
+    <div class="form-section-title" style="margin-top:28px;">Incident Narrative</div>
+    <div class="field">
+      <label>Detailed Description</label>
+      <textarea id="narrative" placeholder="Provide a chronological, factual account of what occurred. Include dates, times, locations, and any relevant context..."></textarea>
+    </div>
+
+    <div class="field" style="margin-top:20px;">
+      <label>Evidence / Supporting Links (optional)</label>
+      <input type="url" id="evidence" placeholder="https://drive.google.com/...">
+      <div class="evidence-note">📎 You can submit screenshots, links to posts, or other digital evidence. All evidence is stored securely and reviewed only by authorised personnel.</div>
+    </div>
+
+    <div class="submit-row">
+      <p class="submit-note">🔒 By submitting, you confirm that the information provided is accurate to the best of your knowledge.</p>
+      <button class="btn-submit" id="submitBtn" onclick="submitReport()">Certify & Submit →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✅</div>
+    <h2 class="success-title">Report Submitted</h2>
+    <div class="success-ref" id="refNum">REF: SC-2026-XXXX</div>
+    <p class="success-sub">Your report has been received and encrypted. A confirmation with your reference number has been sent to your university email. You will be notified of any status updates.</p>
+    <a href="{{ url_for('main.index') }}" class="btn-home">Return to Home</a>
+  </div>
+</div>
+
+<script>
+  let isAnon = false;
+  let selectedSeverity = '';
+
+  function toggleAnon() {
+    isAnon = !isAnon;
+    const toggle = document.getElementById('anonToggle');
+    const nameField = document.getElementById('victim-name');
+    toggle.classList.toggle('active', isAnon);
+    if (isAnon) { nameField.value = 'ANONYMOUS'; nameField.disabled = true; }
+    else { nameField.value = ''; nameField.disabled = false; }
+    updateProgress();
+  }
+
+  function setSeverity(el, level) {
+    document.querySelectorAll('.severity-pill').forEach(p => p.className = 'severity-pill');
+    el.classList.add('selected-' + level);
+    selectedSeverity = level;
+    document.getElementById('severity-val').value = level;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const fields = ['victim-name','roll-no','inc-type','platform','narrative'];
+    let filled = fields.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value && el.value.trim() !== '' && el.value !== '— Select type —' && el.value !== '— Select platform —';
+    }).length;
+    if (selectedSeverity) filled++;
+    const total = fields.length + 1;
+    document.getElementById('progress').style.width = Math.round((filled / total) * 100) + '%';
+  }
+
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('change', updateProgress);
+    el.addEventListener('input', updateProgress);
+  });
+
+  function submitReport() {
+    const required = {
+      'inc-type': 'Incident Type',
+      'platform': 'Platform',
+      'narrative': 'Incident Description'
+    };
+    for (const [id, name] of Object.entries(required)) {
+      const val = document.getElementById(id).value.trim();
+      if (!val) { alert(`Please fill in the ${name} field.`); return; }
+    }
+    if (!selectedSeverity) { alert('Please select a severity level.'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+
+    setTimeout(() => {
+      const ref = 'SC-2026-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('refNum').textContent = 'REF: ' + ref;
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('successScreen').classList.add('show');
+      document.getElementById('progress').style.width = '100%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 900);
+  }
+</script>
+</body>
+</html>
